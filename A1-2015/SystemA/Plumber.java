@@ -20,7 +20,7 @@ public class Plumber
    public static void main( String argv[])
    {
 		/****************************************************************************
-		* Here we instantiate three filters.
+		* Here we instantiate four filters.
 		****************************************************************************/
 
 		SourceFilter fileReaderSource = new SourceFilter();
@@ -44,7 +44,7 @@ public class Plumber
 
 	    fileReaderSource.start();
 	    fahrenheitToCelsius.start();
-		feetToMeters.start();
+		  feetToMeters.start();
 	    sink.start();
 
    } // main

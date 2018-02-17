@@ -1,5 +1,5 @@
 /******************************************************************************************************************
-* File:MiddleFilter.java
+* File:FahrenheitToCelsiusFilter.java
 * Course: 17655
 * Project: Assignment 1
 * Copyright: Copyright (c) 2003 Carnegie Mellon University
@@ -9,8 +9,8 @@
 * Description:
 *
 * This class serves as an example for how to use the FilterRemplate to create a standard filter. This particular
-* example is a simple "pass-through" filter that reads data from the filter's input port and writes data out the
-* filter's output port.
+* example is a filter that reads data from the filter's input port and changes it rom Fahrenheit to Celsius then
+* writes data out the filter's output port.
 *
 * Parameters: 		None
 *
@@ -36,7 +36,7 @@ public class FahrenheitToCelsiusFilter extends FilterFramework
 
 		// Next we write a message to the terminal to let the world know we are alive...
 
-		System.out.print( "\n" + this.getName() + "::Middle Reading ");
+		System.out.print( "\n" + this.getName() + "::FahrenheitToCelsiusFilter Reading ");
 
 		while (true)
 		{
@@ -86,8 +86,10 @@ public class FahrenheitToCelsiusFilter extends FilterFramework
 
 					} // if
 
+
 					midvalue = (Double.longBitsToDouble(measurement) - 32) * 5.0 / 9.0;
 					measurement = Double.doubleToLongBits(midvalue);
+
 					for(i = 0; i < MeasurementLength; i++) {
 						databyte = (byte) ((measurement >> ((7 - i) * 8)) & 0xff);
 						WriteFilterOutputPort(databyte);
@@ -110,7 +112,7 @@ public class FahrenheitToCelsiusFilter extends FilterFramework
 			catch (EndOfStreamException e)
 			{
 				ClosePorts();
-				System.out.print( "\n" + this.getName() + "::Middle Exiting; bytes read: " + bytesread + " bytes written: " + byteswritten );
+				System.out.print( "\n" + this.getName() + "::FahrenheitToCelsiusFilter Exiting; bytes read: " + bytesread + " bytes written: " + byteswritten );
 				break;
 
 			} // catch

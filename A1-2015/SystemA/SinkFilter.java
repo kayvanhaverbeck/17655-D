@@ -61,12 +61,16 @@ public class SinkFilter extends FilterFramework
 		*	First we announce to the world that we are alive...
 		**************************************************************/
 
-		System.out.print( "\n" + this.getName() + "::Sink Reading ");
+		System.out.print( "\n" + this.getName() + "::Sink Reading \n");
 		try {
-
 
 			outStream = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(fileName)));
 			outStream.writeUTF("Time:\t" + "Temperature (C):\t" + "Altitude (m):\t" + "\n");
+			outStream.writeUTF("---------------------------------------------------------------------------------\n");
+
+			String format = "%-27s %20s %20s %n";
+			System.out.printf( format, "Time:", "Temperature (C):", "Altitude (m):");
+			System.out.print("---------------------------------------------------------------------------------\n");
 
 			while (true) {
 				try {
@@ -115,9 +119,7 @@ public class SinkFilter extends FilterFramework
 							measurement = measurement << 8;                // to make room for the next byte we append to the
 							// measurement
 						} // if
-
 						bytesread++;                                    // Increment the byte count
-
 					} // if
 
 					/****************************************************************************
@@ -133,7 +135,6 @@ public class SinkFilter extends FilterFramework
 
 					if (id == 0) {
 						TimeStamp.setTimeInMillis(measurement);
-
 					} // if
 
 					/****************************************************************************
@@ -148,21 +149,18 @@ public class SinkFilter extends FilterFramework
 
 					if (id == 4) {
 						temp = Double.longBitsToDouble(measurement);
-
 					} // if
 
 					if (id == 2) {
 						alt = Double.longBitsToDouble(measurement);
-
 					} // if
 
-					System.out.print(TimeStampFormat.format(TimeStamp.getTime()) + "\t" + temp + "\t" + alt);
+					System.out.printf(format, TimeStampFormat.format(TimeStamp.getTime()), temp , alt);
 					System.out.print("\n");
 
 					outStream.writeUTF(TimeStampFormat.format(TimeStamp.getTime()) + "\t" + temp + "\t" + alt + "\n");
 
 				} // try
-
 				/*******************************************************************************
 				 *	The EndOfStreamExeception below is thrown when you reach end of the input
 				 *	stream (duh). At this point, the filter ports are closed and a message is
@@ -185,12 +183,11 @@ public class SinkFilter extends FilterFramework
 
 
 			} // while
-
+			outStream.flush();
 		} // try
 		catch ( IOException iox )
 		{
 			System.out.println("\n" + this.getName() + "::Problem writing output data file::" + iox );
-
 		} // catch
 
 
