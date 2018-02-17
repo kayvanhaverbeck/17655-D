@@ -29,8 +29,8 @@ public class FahrenheitToCelsiusFilter extends FilterFramework
 		byte databyte = 0;					// The byte of data read from the file
 
 		long measurement;				// This is the word used to store all measurements - conversions are illustrated.
-		double midvalue;			//This is the converted measurement (in Celsius)
-		double formattedValue; //This is the formatted Value with 5 decimal places
+		double valueCelsius;			//This is the converted measurement (in Celsius)
+		double formattedCelsius; //This is the formatted Value with 5 decimal places
 		int id;							// This is the measurement id
 		int i;							// This is a loop counter
 
@@ -87,9 +87,9 @@ public class FahrenheitToCelsiusFilter extends FilterFramework
 					} // if
 
 
-					midvalue = (Double.longBitsToDouble(measurement) - 32) * 5.0 / 9.0; //convert the measurement from long to double and change to Celsius
-					formattedValue = Math.round (midvalue * 100000.0) / 100000.0;   //formatting double to show only 5 decimal places
-					measurement = Double.doubleToLongBits(formattedValue);  //convert double to long
+					valueCelsius = (Double.longBitsToDouble(measurement) - 32) * 5.0 / 9.0; //convert the measurement from long to double and change to Celsius
+					formattedCelsius = Math.round (valueCelsius * 100000.0) / 100000.0;   //formatting double to show only 5 decimal places
+					measurement = Double.doubleToLongBits(formattedCelsius);  //convert double to long
 
 					for(i = 0; i < MeasurementLength; i++) {
 						databyte = (byte) ((measurement >> ((7 - i) * 8)) & 0xff);

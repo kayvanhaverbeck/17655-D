@@ -29,8 +29,8 @@ public class FeetToMetersFilter extends FilterFramework
 		byte databyte = 0;					// The byte of data read from the file
 
 		long measurement;				// This is the word used to store all measurements - conversions are illustrated.
-		double midvalue;		//This is the converted measurement (in Meters)
-		double formattedValue; //This is the formatted Value with 5 decimal places
+		double valueMeters;		//This is the converted measurement (in Meters)
+		double formattedMeters; //This is the formatted Value with 5 decimal places
 
 		int id;							// This is the measurement id
 		int i;							// This is a loop counter
@@ -86,9 +86,10 @@ public class FeetToMetersFilter extends FilterFramework
 
 					} // if
 
-					midvalue = Double.longBitsToDouble(measurement) * 0.3048; //convert the measurment from long to double and then convert from feet to meters
-					formattedValue = Math.round (midvalue * 100000.0) / 100000.0;   //formatting double to show only 5 decimal places
-					measurement = Double.doubleToLongBits(formattedValue); //convert the new measurment from double to long
+					valueMeters = Double.longBitsToDouble(measurement) * 0.3048; //convert the measurment from long to double and then convert from feet to meters
+					formattedMeters = Math.round (valueMeters * 100000.0) / 100000.0;   //formatting double to show only 5 decimal places
+					measurement = Double.doubleToLongBits(formattedMeters); //convert the new measurment from double to long
+
 					for(i = 0; i < MeasurementLength; i++) {
 						databyte = (byte) ((measurement >> ((7 - i) * 8)) & 0xff);
 						WriteFilterOutputPort(databyte);
