@@ -1,5 +1,5 @@
 /******************************************************************************************************************
-* File:MiddleFilter.java
+* File:FeetToMetersFilter.java
 * Course: 17655
 * Project: Assignment 1
 * Copyright: Copyright (c) 2003 Carnegie Mellon University
@@ -8,9 +8,8 @@
 *
 * Description:
 *
-* This class serves as an example for how to use the FilterRemplate to create a standard filter. This particular
-* example is a simple "pass-through" filter that reads data from the filter's input port and writes data out the
-* filter's output port.
+* This class reads data from the filter's input port, converts the feet measurement to meters
+* using the calculation M = F * 0.3048 and writes the converted data out the filter's output port.
 *
 * Parameters: 		None
 *
@@ -30,7 +29,9 @@ public class FeetToMetersFilter extends FilterFramework
 		byte databyte = 0;					// The byte of data read from the file
 
 		long measurement;				// This is the word used to store all measurements - conversions are illustrated.
-		double midvalue;
+		double midvalue;		//This is the converted measurement (in Meters)
+		double formattedValue; //This is the formatted Value with 5 decimal places
+
 		int id;							// This is the measurement id
 		int i;							// This is a loop counter
 
@@ -85,8 +86,9 @@ public class FeetToMetersFilter extends FilterFramework
 
 					} // if
 
-					midvalue = Double.longBitsToDouble(measurement) * 0.3048;
-					measurement = Double.doubleToLongBits(midvalue);
+					midvalue = Double.longBitsToDouble(measurement) * 0.3048; //convert the measurment from long to double and then convert from feet to meters
+					formattedValue = Math.round (midvalue * 100000.0) / 100000.0;   //formatting double to show only 5 decimal places
+					measurement = Double.doubleToLongBits(formattedValue); //convert the new measurment from double to long
 					for(i = 0; i < MeasurementLength; i++) {
 						databyte = (byte) ((measurement >> ((7 - i) * 8)) & 0xff);
 						WriteFilterOutputPort(databyte);
